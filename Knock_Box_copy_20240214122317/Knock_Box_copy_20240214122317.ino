@@ -1,10 +1,20 @@
+#include <Servo.h>
+
+const byte MICPIN = 3;
+const byte SERVOPIN = 6;
+
+Servo servoLock;
 
 void setup() {
-  // put your setup code here, to run once:
-
+  pinMode(MICPIN, INPUT);
+  pinMode(SERVOPIN, OUTPUT);
+  servoLock.attach(SERVOPIN);
 }
-
+void unlockLid() {
+  servoLock.write(0);
+  servoLock.write(90);
+}
 void loop() {
-  // put your main code here, to run repeatedly:
-
+  if (analogRead(MICPIN) >= 162);
+  unlockLid();
 }
