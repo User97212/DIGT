@@ -20,6 +20,7 @@ void setup() {
 
   randomSeed(analogRead(NOISEPIN));
 
+// checking if it is being printed to the LCD screen properly
   if(!screen.begin(16, 2)){ // merit/excellence check
   Serial.println("couldn't start the screen? check wiring");
   while(1);
@@ -27,8 +28,8 @@ void setup() {
 }
 
 void loop() {
-  // if the button has been pressed, read potentiometer to check what dice type
-  // then call the rollDice method with that sort of dice
+  // if the button has been pressed, and the LCD screen is working, read potentiometer to check what dice type
+  // then call the rollDice method with the dice relating to the pot val
   if (digitalRead(BTNPIN) == HIGH) {
     screen.println("Rolling dice..."); // screen print will print everything on the LCD screen
     // gives a value from 0 - 1023
@@ -50,32 +51,32 @@ void rollDice(int diceType) {
     // if diceType val = 1, roll a 4 sided dice
     case 1:
       diceNum = random(1, 4);
-      screen.print("4 side dice roll");
+      screen.print("4 sided roll:");
       break;
       // if diceType val = 2, roll a 6 sided dice
     case 2:
       diceNum = random(1, 6);
-      screen.print("6 side dice roll");
+      screen.print("6 sided roll:");
       break;
       // if diceType val = 3, roll a 8 sided dice
     case 3:
       diceNum = random(1, 8);
-      screen.print("8 side dice roll");
+      screen.print("8 sided roll:");
       break;
       // if diceType val = 4, roll a 10 sided dice
     case 4:
       diceNum = random(1, 10);
-      screen.print("10 side dice roll");
+      screen.print("10 sided roll:");
       break;
       // if diceType val = 5, roll a 12 sided dice
     case 5:
       diceNum = random(1, 12);
-      screen.print("12 side dice roll");
+      screen.print("12 sided roll:");
       break;
       // if diceType val = 6, roll a 14 sided dice
     case 6:
       diceNum = random(1, 14);
-      screen.print("14 side dice roll");
+      screen.print("14 sided roll:");
       break;
       // if diceType val doesn't = 1 - 6, show in serial monitor so I can see my mistake
     default:
