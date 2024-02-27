@@ -1,6 +1,6 @@
 // add a LCD library of functions
 #include <Adafruit_LiquidCrystal.h>
-
+//HAN COMMENT looks great Jorja, fantastic to see all the comments too
 // set up all pins as constants
 const byte BTNPIN = 3;
 const byte NOISEPIN = A0;
