@@ -5,7 +5,7 @@ OpenLog sdCard; // openLog stores or logs the serial data - creates instance
 const String FILENAME = "joke.txt";  // string stores letters, in this case it is storing my file that contains the joke
 
 void setup() {
-  //
+  
   Wire.begin();
   sdCard.begin();
 
