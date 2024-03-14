@@ -1,13 +1,24 @@
 #include<Wire.h>
+#include "SparkFun_Qwiic_OpenLog_Arduino_Library.h" // include library for openLog
+#include "LibPrintf.h" // include printf()
+OpenLog sdCard;
 // LPS25HB address is 0x5C(92)
 #define Adr 0x5C
+
+const boolean CSVFILE = "data.csv";
 
 void setup()
 {
   // initialise I2C communication
   Wire.begin();
+  sdCard.begin();
+
   // initialise serial communication, baud rate set = 9600
   Serial.begin(9600);
+
+  sdCard.append("data.csv");  // checking if it is saving a file to the sdCard
+  sdCard.println("working");
+  sdCard.syncFile(); // save to sdCard
 
   // starting the I2C transmission
   Wire.beginTransmission(Adr);
@@ -20,7 +31,7 @@ void setup()
   delay(300);
 }
 
-void loop()
+void loop() // recieving/reading
 {
   unsigned int data[3];
   // start I2C transmission 
@@ -47,8 +58,6 @@ delay(300);
 float pressure = ((data[2] * 65536) + (data[1] * 256) + data[0]) / 4096.0;
 
 // output data to serial monitor 
-Serial.print("Pressure is: ");
-Serial.print(pressure);
-Serial.println(" hPa");
+printf("Pressure is:" pressure "hPa");
 delay(1000);
 }
