@@ -5,11 +5,14 @@
 LPS25HB pSensor;                               // create an object of the LPS25HB class
 
 const String CSVFILE = "data.csv";
+const byte SWTPIN = 2;
+int swtState = 0; // variable defining switche's state  (0 or 1/on or off)
 OpenLog sdCard;
 
 const byte OpenLogAddress = 42;  // default Qwiic OpenLog I2C address
 
 void setup() {
+  pinMode(SWTPIN, INPUT_PULLUP);
   // initialise I2C communication
   Wire.begin();
   pSensor.begin();
@@ -22,7 +25,7 @@ void setup() {
   // initialise serial communication, baud rate set = 9600
   Serial.begin(9600);
   Serial.print("sdCard should have a file containing the text 'reading working: this is were you should see your pressure values'");
-
+ 
   // if it isn't connected, display this on the serial monitor
   if (pSensor.isConnected() == false) {
     Serial.print("Sensor Error, check your connections");                      // alerting the user that the sensor cannot be reached
@@ -32,6 +35,12 @@ void setup() {
 
 
 void loop() {
+  swtState = digitalRead(SWTPIN);
+   if (swtState == LOW) {
+    Serial.print("Switch is OFF, turn on to work rocket");
+   }
+    if (swtState == HIGH) {
+    Serial.print("Switch is ON, rocket should work");
   // print the pressure reading in hPa
   sdCard.print("Pressure in hPa: ");
   sdCard.print(pSensor.getPressure_hPa());
@@ -55,3 +64,4 @@ void loop() {
 
   delay(1000);  // wait - 40 ms is the maximum update rate of the sensor (25 Hz)
 }
+  }
