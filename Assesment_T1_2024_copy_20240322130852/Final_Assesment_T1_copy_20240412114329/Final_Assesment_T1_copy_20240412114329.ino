@@ -1,7 +1,7 @@
 #include <Wire.h>
-#include <SparkFun_Qwiic_OpenLog_Arduino_Library.h>
-#include "LibPrintf.h"
-#include <SparkFun_LPS25HB_Arduino_Library.h>  // include library for sensor
+#include <SparkFun_Qwiic_OpenLog_Arduino_Library.h> // includes library for sdCard
+#include "LibPrintf.h" // includes library for CSV file
+#include <SparkFun_LPS25HB_Arduino_Library.h>  // includes library for sensor
 
 LPS25HB pSensor;  // create an object of the LPS25HB class, and enables the board to communicate with and retrieve data from the LPS25HB sensor
 OpenLog sdCard;   // create an object of the OpenLog module object, which enables the board to communicate with the OpenLog module and log the data to an SD card
