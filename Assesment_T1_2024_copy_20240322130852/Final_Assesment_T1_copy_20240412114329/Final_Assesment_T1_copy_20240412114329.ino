@@ -2,13 +2,16 @@
 #include <SparkFun_Qwiic_OpenLog_Arduino_Library.h> // includes library for sdCard
 #include "LibPrintf.h" // includes library for CSV file
 #include <SparkFun_LPS25HB_Arduino_Library.h>  // includes library for sensor
+#include <Servo.h> // include servo library 
 
+Servo parachuteServo; // create an object that declares the servo that controls the parachute when the rocket is coming down
 LPS25HB pSensor;  // create an object of the LPS25HB class, and enables the board to communicate with and retrieve data from the LPS25HB sensor
 OpenLog sdCard;   // create an object of the OpenLog module object, which enables the board to communicate with the OpenLog module and log the data to an SD card
 
 const String CSVFILE = "data.csv";
 const byte SWTPIN = 2;
 int swtState = 0;  // variable defining switche's state  (0 or 1/on or off)
+bool parachuteDeploy = false;
 
 void setup() {
   pinMode(SWTPIN, INPUT_PULLUP);
@@ -19,6 +22,7 @@ void setup() {
   sdCard.create(CSVFILE);
   sdCard.append(CSVFILE);
   Serial.begin(9600);  // initialise serial communication, baud rate set to 9600
+  parachuteServo.attach(4);
 
   // check to see if sdcard is connected
   sdCard.println("reading working: this is were you should see your pressure values");
@@ -65,4 +69,10 @@ void loop() {
     Serial.println(millis());
     delay(1000);  // wait a second so that the values on the sdcard are readable and not too fast
   }
+  if (parachuteDeploy) {
+    parachuteServo.write(180); // Move servo to 180 degrees
+  } else {
+    parachuteServo.write(0); // Move servo to 0 degrees
+  }
+
 }
