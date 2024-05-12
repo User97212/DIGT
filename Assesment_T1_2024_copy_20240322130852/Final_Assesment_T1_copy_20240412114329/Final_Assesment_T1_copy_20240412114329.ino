@@ -27,7 +27,7 @@ void setup() {
   // check to see if sdcard is connected
   sdCard.println("reading working: this is were you should see your pressure values");
   sdCard.syncFile();
-  Serial.print("sdCard should have a file containing the text 'reading working: this is were you should see your pressure values'");
+  Serial.print("sdCard should have a file containing the text 'reading working: this is were you should see your pressure values' if this text is not in file, check connections on board");
 
   // if sensor isn't connected, display this on the serial monitor
   if (pSensor.isConnected() == false) {
