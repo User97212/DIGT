@@ -43,34 +43,17 @@ void setup() {
 }
 void slap(bool debug) {
   if (debug == true) {
+    // debugging stuff
     Serial.println("Debugging mode activated");
-  }
-  // non-debugging stuff
-}
-
-void parachuteDeploy() {
-  float getPressure = pSensor.getPressure_hPa();  // get the current pressure reading from the sensor
-
-  if (getPressure <= 250) {     // if that pressure reading is higher than or equal to 250hPa, go to next line
-    parachuteServo.write(180);  // deploy parachute (assuming servo controls parachute deployment)
-  } else {                      // if pressure reading is lower than 250hPa, go to next line
-    parachuteServo.write(0);    // turn keep servo at 0 degrees (keep parachute closed)
-  }
-}
-void loop() {
-  swtState = digitalRead(SWTPIN);
-
-  slap(true);  // using when debugging
-  // slap(false); // ising when launching
-  if (swtState == LOW) {
-    Serial.print("Switch is OFF, turn on to work rocket");
-  } else if (swtState == HIGH) {  // this is a simple test just to see if the switch really is working, else if isn't need for a switch with just HIGH or LOW options, however I have decided to add it because I wanted a test for the on/off switch
-    Serial.print("Switch is ON, rocket should work");
-
-    // perform actions based on debug mode
-    slap(true);  // using debug mode to print debugging info
-
-    // print the pressure reading in hPa
+    Serial.print("Pressure in hPa: ");
+    Serial.println(pSensor.getPressure_hPa());
+    Serial.print("Temperature (degC): ");
+    Serial.println(pSensor.getTemperature_degC());
+    Serial.print("Time (ms): ");
+    Serial.println(millis());
+  }else{
+// non debugging stuff
+  // print the pressure reading in hPa
     sdCard.print("Pressure in hPa: ");
     sdCard.print(pSensor.getPressure_hPa());
     Serial.print("Pressure in hPa: ");
@@ -91,6 +74,27 @@ void loop() {
     Serial.println(millis());
     delay(1000);  // wait a second so that the values on the sdcard are readable and not too fast
 
+  }
+}
+
+void parachuteDeploy() {
+  float getPressure = pSensor.getPressure_hPa();  // get the current pressure reading from the sensor
+
+  if (getPressure <= 250) {     // if that pressure reading is higher than or equal to 250hPa, go to next line
+    parachuteServo.write(180);  // deploy parachute (assuming servo controls parachute deployment)
+  } else {                      // if pressure reading is lower than 250hPa, go to next line
+    parachuteServo.write(0);    // turn keep servo at 0 degrees (keep parachute closed)
+  }
+}
+
+void loop() {
+  swtState = digitalRead(SWTPIN);
+  // slap(false); // ising when launching
+  if (swtState == LOW) {
+    Serial.print("Switch is OFF, turn on to work rocket");
+  } else if (swtState == HIGH) {  // this is a simple test just to see if the switch really is working, 'else if' isn't needed for a switch with just HIGH or LOW options, however I have decided to add it because I wanted a test for the on/off switch
+    Serial.print("Switch is ON, rocket should work");
+    slap(false); // do non debugging stuff
     parachuteDeploy();
   }
 }
