@@ -1,6 +1,6 @@
 #include <Wire.h>
 #include <SparkFun_Qwiic_OpenLog_Arduino_Library.h>  // includes library for sdCard
-#include "LibPrintf.h"                               // includes library for CSV file
+#include <LibPrintf.h>                               // includes library for CSV file
 #include <SparkFun_LPS25HB_Arduino_Library.h>        // includes library for sensor
 #include <Servo.h>                                   // include servo library
 
