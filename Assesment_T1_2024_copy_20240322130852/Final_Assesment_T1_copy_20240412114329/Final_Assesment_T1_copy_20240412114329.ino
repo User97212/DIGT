@@ -43,7 +43,7 @@ void setup() {
   Serial.println(status, HEX);           // print the status byte in hexadecimal format and move to a new line on the serial monitor
 }
 void debug(bool debug) {  // controls program behavior based on debug mode (TRUE for debugging, FALSE for normal operation)
-  if (debug == true) {   // if debug is true
+  if (debug == true) {    // if debug is true
     // debugging stuff
     Serial.println("Debugging mode activated");
     Serial.print("Pressure in hPa: ");
@@ -95,7 +95,7 @@ void loop() {
     Serial.print("Switch is OFF, turn on to work rocket");
   } else if (swtState == HIGH) {  // this is a simple test just to see if the switch really is working, 'else if' isn't needed for a switch with just HIGH or LOW options, however I have decided to add it because I wanted a test for the on/off switch
     Serial.print("Switch is ON, rocket should work");
-    debug(false);        // calling method to do non debugging stuff
+    debug(false);       // calling method to do non debugging stuff
     parachuteDeploy();  // calling the parachute deploy method
   }
 }
