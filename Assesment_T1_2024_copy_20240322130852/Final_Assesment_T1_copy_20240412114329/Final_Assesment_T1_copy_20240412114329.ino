@@ -25,7 +25,7 @@ void setup() {
   parachuteServo.write(0);  // default/initial position of the servo is 0 degrees
 
   // check to see if sdcard is connected
-  sdCard.println("reading working: this is were you should see your pressure values");
+  //sdCard.println("reading working: this is were you should see your pressure values");
   sdCard.println("Pressure(hPa),   Tempurature(degC),    Time(ms),   ");  // setting up headings for sdCard
   sdCard.syncFile();
   Serial.print("sdCard should have a file containing the text 'reading working: this is were you should see your pressure values' if this text is not in file, check connections on board");
@@ -42,38 +42,40 @@ void setup() {
   if (status < 0x10) Serial.print("0");  // add a leading zero if the status byte is less than 16 for consistent formatting
   Serial.println(status, HEX);           // print the status byte in hexadecimal format and move to a new line on the serial monitor
 }
-void slap(bool debug) {  // controls program behavior based on debug mode (TRUE for debugging, FALSE for normal operation)
+void debug(bool debug) {  // controls program behavior based on debug mode (TRUE for debugging, FALSE for normal operation)
   if (debug == true) {   // if debug is true
     // debugging stuff
     Serial.println("Debugging mode activated");
     Serial.print("Pressure in hPa: ");
     Serial.println(pSensor.getPressure_hPa());
+    delay(1000);  // wait a second so that the values on the sdcard are readable and not too fast
     Serial.print("Temperature (degC): ");
     Serial.println(pSensor.getTemperature_degC());
+    delay(1000);  // wait a second so that the values on the sdcard are readable and not too fast
     Serial.print("Time (ms): ");
     Serial.println(millis());
+    delay(1000);                              // wait a second so that the values on the sdcard are readable and not too fast
   } else {                                    // if debug is false
-                                              //non debugging stuff
+                                              // non debugging stuff
                                               // print the pressure reading in hPa
     sdCard.print(pSensor.getPressure_hPa());  // print pressure value on sdcard
     // using serial monitor to test each value
     Serial.print("Pressure in hPa: ");
     Serial.println(pSensor.getPressure_hPa());
-    delay(1000);  // wait a second so that the values on the sdcard are readable and not too fast
+    sdCard.print(",");
 
     // print the temperature in degrees C
     sdCard.print(pSensor.getTemperature_degC());  // print tempurature value on sdcard
     // using serial monitor to test each value
     Serial.print(", Temperature (degC): ");
     Serial.println(pSensor.getTemperature_degC());
-    delay(1000);  // wait a second so that the values on the sdcard are readable and not too fast
+    sdCard.print(",");
 
     // print the amount of ms since the rocket took off
-    sdCard.print(millis());  // print time value on sdcard
+    sdCard.println(millis());  // print time value on sdcard
     // using serial monitor to test each value
     Serial.print(", Time: ");
     Serial.println(millis());
-    delay(1000);  // wait a second so that the values on the sdcard are readable and not too fast
   }
 }
 
@@ -93,7 +95,7 @@ void loop() {
     Serial.print("Switch is OFF, turn on to work rocket");
   } else if (swtState == HIGH) {  // this is a simple test just to see if the switch really is working, 'else if' isn't needed for a switch with just HIGH or LOW options, however I have decided to add it because I wanted a test for the on/off switch
     Serial.print("Switch is ON, rocket should work");
-    slap(false);        // calling method to do non debugging stuff
+    debug(false);        // calling method to do non debugging stuff
     parachuteDeploy();  // calling the parachute deploy method
   }
 }
